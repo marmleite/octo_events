@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  port: <%= ENV['DATABASE_PORT'] || '5432' %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: octo_events_development
+
+test:
+  <<: *default
+  database: octo_events_test
+
+production:
+  <<: *default
+  database: octo_events_production
