@@ -40,4 +40,27 @@ RSpec.describe Event, type: :model do
       expect(subject).to_not be_valid
     end
   end
+
+  describe 'with paylaod' do
+    context 'without action' do
+      it 'is not valid' do
+        subject.payload.delete!('action')
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context 'without render' do
+      it 'is not valid' do
+        subject.payload.delete!('sender')
+        expect(subject).to_not be_valid
+      end
+    end
+
+    context 'without render' do
+      it 'is not valid' do
+        subject.payload.delete!('repository')
+        expect(subject).to_not be_valid
+      end
+    end
+  end
 end
