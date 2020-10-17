@@ -25,9 +25,14 @@ RSpec.describe EventsController, type: :routing do
     end
 
     context 'available' do
-      it '#create not to be routable' do
+      it 'route to events#create' do
         expect(post: '/events').to route_to('events#create')
       end
+
+      # It was not possible to test route to /:name/:action_id/events'
+      # But the request events test is working
+      # Needs more deep debug to figure out why
+      it 'route to events#index'
     end
   end
 end

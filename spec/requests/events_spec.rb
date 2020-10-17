@@ -22,7 +22,7 @@ RSpec.describe '/events', type: :request do
   # X-Hub-Signature -> used to authenticate the
   let(:valid_headers) {
     {
-      'X-GitHub-Event' => 'issue',
+      'X-GitHub-Event' => 'issues',
       'X-GitHub-Delivery' => 'guid',
       'X-Hub-Signature' => signature,
       'Content-type' => 'application/json'
@@ -125,6 +125,30 @@ RSpec.describe '/events', type: :request do
           params: valid_attributes, headers: headers_without_x_hub_signature, as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'GET /issues/:number/events' do
+    context 'with valid query parameters' do
+      before do
+        Event.create!(
+            name: 'issues',
+            guid: 'guid',
+            payload: {
+              action: 'issue',
+              issue: { number: 1 },
+              repository: 'repo',
+              sender: ''
+            }
+        )
+      end
+
+      it 'filter action by number' do
+        events = Event.issues
+        get '/issues/1/events'
+
+        expect(response.body).to be == events.to_json(only: :payload)
       end
     end
   end
