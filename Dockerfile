@@ -11,6 +11,8 @@ COPY Gemfile.lock ./
 
 RUN bundle install
 
+RUN gem install bundler -v 2.1.4
+
 COPY . /
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
