@@ -1,5 +1,11 @@
 class EventsController < ApplicationController
-  before_action :verify_signature
+  before_action :verify_signature, except: [:filter_issues_by_number]
+
+  # GET /events
+  def filter_issues_by_number
+    events = Event.issues.where("payload -> 'issue' ->>  'number' = :number", number: params[:number]).all
+    render json: events.to_json(only: :payload), status: :ok
+  end
 
   # POST /events
   def create
@@ -16,10 +22,10 @@ class EventsController < ApplicationController
     # Set the attributes to the event param
     # the request body is passed as the payload attribute
     def event_params
-      params[:event][:payload] = @json_payload
+      params[:event][:payload] = JSON.parse(@json_payload)
       params[:event][:name] = request.headers['X-GitHub-Event']
       params[:event][:guid] = request.headers['X-GitHub-Delivery']
-      params.require(:event).permit(:name, :guid, :payload)
+      params.require(:event).permit(:name, :guid, payload: {})
     end
 
     def verify_signature
