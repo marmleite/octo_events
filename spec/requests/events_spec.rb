@@ -52,18 +52,6 @@ RSpec.describe '/events', type: :request do
         end
       end
 
-      context 'without action parameter' do
-        it 'renders unprocessable_entity' do
-          params_without_action = valid_attributes.except(:action)
-          allow(self).to receive(:valid_attributes).and_return(params_without_action)
-
-          post events_url,
-            params: params_without_action, headers: valid_headers, as: :json
-
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-      end
-
       context 'without sender parameter' do
         it 'renders unprocessable_entity' do
           params_without_sender = valid_attributes.except(:sender)
@@ -71,18 +59,6 @@ RSpec.describe '/events', type: :request do
 
           post events_url,
             params: params_without_sender, headers: valid_headers, as: :json
-
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-      end
-
-      context 'without repository parameter' do
-        it 'renders unprocessable_entity' do
-          params_without_repository = valid_attributes.except(:repository)
-          allow(self).to receive(:valid_attributes).and_return(params_without_repository)
-
-          post events_url,
-            params: params_without_repository, headers: valid_headers, as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
         end

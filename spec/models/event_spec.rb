@@ -7,10 +7,8 @@ RSpec.describe Event, type: :model do
       name: 'Issue',
       guid: 'guid',
       payload: {
-        action: '',
-        sender: '',
-        repository: ''
-      }.to_json
+        sender: ''
+      }
     )
   }
 
@@ -23,6 +21,7 @@ RSpec.describe Event, type: :model do
   context 'without a name' do
     it 'is not valid' do
       subject.name = nil
+
       expect(subject).to_not be_valid
     end
   end
@@ -30,6 +29,7 @@ RSpec.describe Event, type: :model do
   context 'without a guid' do
     it 'is not valid' do
       subject.guid = nil
+
       expect(subject).to_not be_valid
     end
   end
@@ -37,28 +37,16 @@ RSpec.describe Event, type: :model do
   context 'without a payload' do
     it 'is not valid' do
       subject.payload = nil
+
       expect(subject).to_not be_valid
     end
   end
 
   describe 'with paylaod' do
-    context 'without action' do
-      it 'is not valid' do
-        subject.payload.delete!('action')
-        expect(subject).to_not be_valid
-      end
-    end
-
     context 'without render' do
       it 'is not valid' do
-        subject.payload.delete!('sender')
-        expect(subject).to_not be_valid
-      end
-    end
+        subject.payload.delete('sender')
 
-    context 'without render' do
-      it 'is not valid' do
-        subject.payload.delete!('repository')
         expect(subject).to_not be_valid
       end
     end
