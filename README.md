@@ -1,21 +1,41 @@
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+
+- [Octo Events](#octo-events)
+  - [1. Webhook Endpoint](#1-webhook-endpoint)
+  - [2. Events Endpointv](#2-events-endpointv)
+  - [3. Installation](#3-installation)
+  - [4. Test it](#4-test-it)
+
 # Octo Events
 
 Octo Events is an application that listens to Github Events via webhooks and expose by an api for later use.
 
 ![alt text](imgs/octo_events.png)
 
- The test consists in building 2 endpoints:
 
 ## 1. Webhook Endpoint
 
-The Webhook endpoint receives events from Github and saves them on the database, in order to do that you must read the following docs:
+The Webhook endpoint receives events from Github and saves them on the database:
 
-* Webhooks Overview: https://developer.github.com/webhooks/ 
+**Request:**
+
+> POST /events
+
+```javascript
+  { "sender": "{}"}
+```
+
+**Response:**
+
+> 201 CREATED
+
+ To know more about how it works read the following docs:
+
+* Webhooks Overview: https://developer.github.com/webhooks/
 * Creating Webhooks : https://developer.github.com/webhooks/creating/
 
-It must be called `/events`
-
-## 2. Events Endpoint
+## 2. Events Endpointv
 
 The Events endpoint will expose the persist the events by an api that will filter by issue number
 
@@ -27,32 +47,67 @@ The Events endpoint will expose the persist the events by an api that will filte
 
 > 200 OK
 ```javascript
-[ 
-  { "action": "open", created_at: "...",}, 
-  { "action": "closed", created_at: "...",} 
+[
+  { "action": "open", created_at: "...",},
+  { "action": "closed", created_at: "...",}
 ]
+```
+
+## 3. Installation
+
+**Requeriments**
+
+* [Docker 19.03.6+](https://docs.docker.com/get-docker/)
+* [docker-compose 1.17.1+](https://docs.docker.com/compose/install/)
+* [Disable Docker sudo usage](https://docs.docker.com/engine/install/linux-postinstall/)
+
+
+1. Create the project folder:
+
+```sh
+mkdir octo_events && cd octo_events
+```
+
+2. Download the project:
+
+```sh
+git clone git@bitbucket.org:recrutamento_jya_ruby/recrutamento-ruby-jya-marcelomarzolaleite_gmail.com.git .
+```
+
+3. Give permission
+   Give permission to the user execute the script **setup**
+```sh
+chmod 755 setup
+```
+
+4. Setup
+   It will run `docker-compose up`, create the data base and migrate. You can visit http://localhost:3000 to confirm it is up and running:
+```sh
+./setup
 ```
 
 **Github Integration Instructions**
 
 * Tip: You can use ngrok (https://ngrok.com/)  to install / debug the webhook calls, it generates a public url that will route to your local host:
 
-   $ sudo ngrok http 4000 
+   $ ./ngrok http 3000
 
 ![alt text](imgs/ngrok.png)
 
    GitHub
 
 ![alt text](imgs/add_webhook.png)
- 
-**Final Observations**
 
-* Use any library / framework / gem  you want, you don't have to do anything "from scratch"
-* Write tests, use your favorite framework for that
-* Use Postgres 9.6+ or MySQL 5.7+ for your database;
-* Add to README.md your instructions for running the project. Whether you're delivering just source code or an accompanying `Dockerfile`/`docker-compose.yml`, we expect at most the following commands to be needed to run your solution (besides the usual docker related deploy steps):
-    - `rake db:create`
-    - `rake db:migrate`
-    - `rails s -p 3000 -b '0.0.0.0'`
-* The oldest supported Ruby version is 2.5.1;
-* Have fun and we hope you succeed :-)
+## 4. Test it
+
+1. Give permission
+   Give permission to the user execute the script **run**
+```sh
+chmod 755 test
+```
+
+2. Setup
+   It will run the tests inside the running docker container:
+```sh
+./test
+```
