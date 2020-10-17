@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo
+
+docker exec -it octoevents_web_1 bundle exec rspec --format documentation
+
+echo
+echo
