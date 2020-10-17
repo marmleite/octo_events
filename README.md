@@ -6,6 +6,8 @@
   - [2. Events Endpointv](#2-events-endpointv)
   - [3. Installation](#3-installation)
   - [4. Test it](#4-test-it)
+  - [5. Stop](#5-stop)
+  - [6. Restart](#6-restart)
 
 # Octo Events
 
@@ -98,6 +100,12 @@ chmod 755 setup
 
 ![alt text](imgs/add_webhook.png)
 
+After that, add the secret token and the ngrok URL to `.env` file:
+```
+NGROK_HOST=url.ngrok.io
+SECRET_TOKEN=secret_token
+```
+
 ## 4. Test it
 
 1. Give permission
@@ -110,4 +118,18 @@ chmod 755 test
    It will run the tests inside the running docker container:
 ```sh
 ./test
+```
+
+## 5. Stop
+
+If you want to stop the project:
+```sh
+docker-compose stop
+```
+
+## 6. Restart
+
+If you want to stop the project:
+```sh
+docker-compose start
 ```
