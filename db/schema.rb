@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_10_08_122213) do
     t.jsonb "payload", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_events_on_name"
   end
 
 end
