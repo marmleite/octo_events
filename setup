@@ -2,7 +2,7 @@
 
 echo
 
-docker-compose up -d && docker exec -it octoevents_web_1 rake db:create && docker exec -it octoevents_web_1 rake db:migrate
+docker-compose up -d && docker exec -it octo_events rake db:create && docker exec -it octo_events rake db:migrate
 
 echo
 echo
